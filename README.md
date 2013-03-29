@@ -40,12 +40,13 @@ API
     * [delay](#delaydelay)
     * [timeout](#timeouttimeout)
     * [sync](#syncwithpromise)
+    * [cb](#cb)
   * [Vow API](#vow-api)
     * [isPromise](#ispromisevalue)
-    * [when](#whenvalue-onfulfilled-onrejected-onprogress) 
+    * [when](#whenvalue-onfulfilled-onrejected-onprogress)
     * [fail](#failvalue-onrejected)
     * [always](#alwaysvalue-onresolved)
-    * [spread](#spreadvalue-onfulfilled-onrejected) 
+    * [spread](#spreadvalue-onfulfilled-onrejected)
     * [done](#donevalue)
     * [isFulfilled](#isfulfilledvalue)
     * [isRejected](#isrejectedvalue)
@@ -112,8 +113,8 @@ promise.isResolved(); // returns true
 
 ####valueOf()####
 Returns value of the promise:
-  * value of fulfillment, if promise is fullfilled 
-  * reason of rejection, if promise is rejected 
+  * value of fulfillment, if promise is fullfilled
+  * reason of rejection, if promise is rejected
   * undefined, if promise is not resolved
 
 ####then([onFulfilled], [onRejected], [onProgress])####
@@ -121,7 +122,7 @@ Arranges for:
   * ````onFulfilled```` to be called with the value after promise is fulfilled,
   * ````onRejected```` to be called with the rejection reason after promise is rejected.
   * ````onProgress```` to be called with the value when promise is notified for progress.
- 
+
 Returns a new promise. See [Promises/A+ specification](https://github.com/promises-aplus/promises-spec) for details.
 ````javascript
 var promise = Vow.promise();
@@ -162,7 +163,7 @@ var promise1 = Vow.promise(),
 Vow.all([promise1, promise2]).spread(function(arg1, arg2) {
     // arg1 should be "1", arg2 should be "'two'"
 });
-    
+
 promise1.fulfill(1);
 promise2.fulfill('two');
 ````
@@ -211,6 +212,12 @@ withPromise.then(
     });
 ````
 
+####cb(err, result)####
+Returns a nodeJS style callback which fullfills or rejects the promise.
+````javascript
+fs.mkdir('foo', promise.cb);
+````
+
 ###Vow API###
 
 ####isPromise(value)####
@@ -235,7 +242,7 @@ If given ````value```` is not a promise, ````value```` is equivalent to fulfille
 
 ####done(value)####
 Static equivalent for [promise.done](#done).
-If given ````value```` is not a promise, ````value```` is equivalent to fulfilled promise. 
+If given ````value```` is not a promise, ````value```` is equivalent to fulfilled promise.
 
 ####isFulfilled(value)####
 Static equivalent for [promise.isFulfilled](#isfulfilled).
@@ -263,7 +270,7 @@ Invokes a given function ````fn```` with arguments ````args````. Returned promis
   * will be fulfilled with returned value if value is not a promise
   * will be returned value if value is a promise
   * will be rejected if function throw exception
- 
+
 ````javascript
 var promise1 = Vow.invoke(function(value) {
         return value;
@@ -285,7 +292,7 @@ Returns a promise to be fulfilled only after all items in ````promisesOrValues``
 ````javascript
 var promise1 = Vow.promise(),
     promise2 = Vow.promise();
-    
+
 Vow.all([promise1, promise2, 3])
     .then(function(value) {
         // value is [1, 2, 3]
@@ -298,7 +305,7 @@ or Object:
 ````javascript
 var promise1 = Vow.promise(),
     promise2 = Vow.promise();
-    
+
 Vow.all({ a : promise1, b : promise2, c : 3 })
     .then(function(value) {
         // value is { a : 1, b : 2, c : 3 }
@@ -313,7 +320,7 @@ Returns a promise to be fulfilled only after all items in ````promisesOrValues``
 ````javascript
 var promise1 = Vow.promise(),
     promise2 = Vow.promise();
-    
+
 Vow.allResolved([promise1, promise2])
     .spread(function(promise1, promise2) {
         promise1.valueOf(); // returns 'error'
