@@ -46,6 +46,7 @@ API
     * [when](#whenvalue-onfulfilled-onrejected-onprogress)
     * [fail](#failvalue-onrejected)
     * [always](#alwaysvalue-onresolved)
+    * [progress](#progressvalue-onprogress)
     * [spread](#spreadvalue-onfulfilled-onrejected)
     * [done](#donevalue)
     * [isFulfilled](#isfulfilledvalue)
@@ -152,6 +153,7 @@ promise.fulfill('ok'); // or promise.reject(Error('error'));
 ````
 
 ####progress(onProgress)####
+Shortcut for ````then(null, null, onProgress)````.
 
 ####spread([onFulfilled], [onRejected])####
 Like "then", but "spreads" the array into a variadic value handler.
@@ -235,6 +237,9 @@ Static equivalent for [promise.fail](#failonrejected). If given ````value```` is
 
 ####always(value, onResolved)####
 Static equivalent for [promise.always](#alwaysonresolved). If given ````value```` is not a promise, ````value```` is equivalent to fulfilled promise.
+
+####progress(value, onProgress)####
+Static equivalent for [promise.progress](#progressonprogress). If given ````value```` is not a promise, ````value```` is equivalent to fulfilled promise.
 
 ####spread(value, [onFulfilled], [onRejected])####
 Static equivalent for [promise.spread](#spreadonfulfilled-onrejected).
